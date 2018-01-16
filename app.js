@@ -5,6 +5,8 @@ const nunjucks = require('nunjucks');
 const tweetbank = require('./tweetbank');
 const routes = require('./routes');
 
+app.use(express.static('public'));
+
 app.engine('html', nunjucks.render)
 app.set('view engine', 'html')
 nunjucks.configure('views', { noCache: true })
