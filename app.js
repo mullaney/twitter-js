@@ -1,34 +1,23 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const nunjucks = require('nunjucks');
+const tweetbank = require('./tweetbank');
+const routes = require('./routes');
+
+app.engine('html', nunjucks.render)
+app.set('view engine', 'html')
+nunjucks.configure('views', { noCache: true })
+
+app.use('/', routes);
 
 const devLogger = morgan('dev');
-
-// const logger = (req, res, next) => {
-//   console.log(req.method, req.url, res.statusCode);
-//   next();
-// };
-
-app.use('/special', (req, res, next) => {
-  console.log('You\'ve reached the special place');
-  next();
-})
-
 app.use(devLogger);
 
-app.get('/', (req, res, next) => {
-  //
-  res.send('home!');
-  next();
-});
-
-app.get('/hello/', (req, res, next) => {
-  //
-  res.send('Hello!');
-  next();
-});
-
-
+// app.use('/special', (req, res, next) => {
+//   console.log('You\'ve reached the special place');
+//   next();
+// })
 
 app.listen(3000, () => {
   console.log('listening on 3000');
