@@ -1,21 +1,38 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
-const logger = (req, res, next) => {
-  console.log(req.method, req.url, res.statusCode);
+const devLogger = morgan('dev');
+
+// const logger = (req, res, next) => {
+//   console.log(req.method, req.url, res.statusCode);
+//   next();
+// };
+
+app.use('/special', (req, res, next) => {
+  console.log('You\'ve reached the special place');
   next();
-};
+})
 
-// const checkSpecial
-
-app.use(logger);
+app.use(devLogger);
 
 app.get('/', (req, res, next) => {
+  //
+  res.send('home!');
+  next();
+});
+
+app.get('/hello/', (req, res, next) => {
+  //
   res.send('Hello!');
   next();
 });
 
-app.listen(3000);
+
+
+app.listen(3000, () => {
+  console.log('listening on 3000');
+});
 
 
 // [ '_readableState',
